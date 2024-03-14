@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/JWT-Auth-RefreshToken/JWT-Auth-RefreshToken/appsettings.Development.json
