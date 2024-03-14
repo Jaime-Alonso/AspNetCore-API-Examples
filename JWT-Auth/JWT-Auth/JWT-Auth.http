@@ -1,0 +1,11 @@
+@JWT_Auth_HostAddress = http://localhost:5113
+
+POST {{JWT_Auth_HostAddress}}/api/token
+Content-Type: application/json
+
+{
+    "email": "email@email",
+    "password": "secret"    
+}
+
+###
