@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT-Auth-RefreshToken", "JWT-Auth-RefreshToken\JWT-Auth-RefreshToken.csproj", "{5F1759F9-5990-405E-B28B-AEAA288C86A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F1759F9-5990-405E-B28B-AEAA288C86A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1759F9-5990-405E-B28B-AEAA288C86A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1759F9-5990-405E-B28B-AEAA288C86A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1759F9-5990-405E-B28B-AEAA288C86A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6DA945AB-ADE2-4AE6-8599-07FFBBED91A1}
+	EndGlobalSection
+EndGlobal

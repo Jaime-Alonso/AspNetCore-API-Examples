@@ -19,7 +19,7 @@ public class TokenService
     public IResult GetToken(string email, string password)
     {
         //your logic for login process
-        //If email and password are correct then proceed to generate token otherwise return Results.Forbid();
+        //If email and password are correct then proceed to generate token otherwise return Results.Unauthorize();
 
         //Important Note: 
         //never return "username does not exist or password is incorrect", always return "username or password is incorrect" for security reasons

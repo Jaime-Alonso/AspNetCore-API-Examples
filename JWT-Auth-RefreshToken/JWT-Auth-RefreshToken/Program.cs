@@ -1,7 +1,11 @@
-using JWT_Auth.Configuration;
-using JWT_Auth.Controllers;
-using JWT_Auth.Services;
+using JWT_Auth_RefreshToken.Configuration;
+using JWT_Auth_RefreshToken.Controllers;
+using JWT_Auth_RefreshToken.Identity;
+using JWT_Auth_RefreshToken.Persistence;
+using JWT_Auth_RefreshToken.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -9,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var corsPolicyName = "corsPolicy";
 
-builder.Services.AddCors( options =>
+builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsPolicyName,
         policy =>
@@ -25,7 +29,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<JwtConfigurationModel>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
  .AddJwtBearer(options =>
  {
      options.TokenValidationParameters = new TokenValidationParameters
@@ -39,6 +47,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Get<string>()!))
      };
  });
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseNpgsql(connectionString));
+
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddTransient<TokenService>();
 
@@ -54,12 +71,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    await SeedUserAsync();
 }
 
 app.UseHttpsRedirection();
-
 app.MapToken();
-
-
+app.MapProducts();
 
 app.Run();
+
+
+
+async Task SeedUserAsync()
+{
+    using var scope = app.Services.CreateScope();    
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    await IdentitySeed.SeedUserAsync(userManager);
+}
